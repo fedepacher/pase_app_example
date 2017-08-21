@@ -158,7 +158,7 @@ TASK(InitTask)
            eventInput2_callBack);
 
    //inicia uart
-  // mcu_uart_init(BAUD_RATE);
+   mcu_uart_init(BAUD_RATE);
 
 
 
@@ -196,7 +196,7 @@ TASK(PeriodicTask)
 					break;
 
 				}
-				//ChainTask(WriteSerialTask);
+				ChainTask(WriteSerialTask);
 			}
 		}
 		else
@@ -244,7 +244,7 @@ TASK(PeriodicTask4Seg)
 	{
 		led_encendido = 0;
 	}
-	/*ChainTask(WriteSerialTask2);*/
+	ChainTask(WriteSerialTask2);
 	TerminateTask();
 }
 
@@ -254,7 +254,7 @@ TASK(PeriodicTask4Seg)
 TASK(WriteSerialTask)
 {
 
-	/*bsp_ledAction(BOARD_LED_ID_0_R, BSP_LED_ACTION_TOGGLE);
+	bsp_ledAction(BOARD_LED_ID_0_R, BSP_LED_ACTION_TOGGLE);
 	char message1[] = "Maximo Amarillo\n\r";
 	char message2[] = "Maximo Rojo\n\r";
 	char message3[] = "Maximo Verde\n\r";
@@ -285,7 +285,7 @@ TASK(WriteSerialTask)
 			 	 case MAXIMO_3:
 			 		 mcu_uart_write(message3, sizeof(message3));
 			 		 break;
-		}*/
+		}
 
 
 	TerminateTask();
@@ -293,7 +293,7 @@ TASK(WriteSerialTask)
 
 TASK(WriteSerialTask2)
 {
-/*	char message8[] = "Iniciando Amarillo\n\r";
+	char message8[] = "Iniciando Amarillo\n\r";
 	char message9[] = "Iniciando Rojo\n\r";
 	char message10[] = "Iniciando Verde\n\r";
 	switch(led_encendido)
@@ -307,7 +307,7 @@ TASK(WriteSerialTask2)
 				case lED_3:
 			 		mcu_uart_write(message10, sizeof(message10));
 			 		break;
-			 }*/
+			 }
 	TerminateTask();
 }
 //TECLA 1
@@ -329,7 +329,7 @@ TASK(InputEvTask1)
 	   pausa = 1;
 	   mcu_pwm_stop();
 	   secuencia = STOP;
-	   //ChainTask(WriteSerialTask);
+	   ChainTask(WriteSerialTask);
 	}
 	else
 	{
@@ -340,7 +340,7 @@ TASK(InputEvTask1)
 		flag_cambio = 0;
 		secuencia = INICIO_SECUENCIA;
 		mcu_pwm_start();
-		//ChainTask(WriteSerialTask);
+		ChainTask(WriteSerialTask);
 
 	}
 
@@ -364,7 +364,7 @@ TASK(InputEvTask2)
 	   pausa = 0;
 	   secuencia = REANUDA_SECUENCIA;
    }
-   //ChainTask(WriteSerialTask);
+   ChainTask(WriteSerialTask);
    TerminateTask();
 }
 
