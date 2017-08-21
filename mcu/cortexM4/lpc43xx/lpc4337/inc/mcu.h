@@ -47,6 +47,7 @@
 /*==================[inclusions]=============================================*/
 #include "mcu_gpio.h"
 #include "mcu_uart.h"
+#include "mcu_pwm.h"
 /*==================[cplusplus]==============================================*/
 #ifdef __cplusplus
 extern "C" {

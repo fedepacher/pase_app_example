@@ -70,4 +70,7 @@ int32_t mcu_uart_read(uint8_t* buffer, size_t const size);
 */
 void mcu_uart_write(uint8_t const * const buffer, size_t const size);
 
+
+
+
 #endif

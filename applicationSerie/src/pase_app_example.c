@@ -51,8 +51,8 @@
 
 /*==================[macros and definitions]=================================*/
 #define FIRST_START_DELAY_MS 350
-#define PERIOD_MS 250
-
+#define PERIOD_MS 1000
+#define BAUD_RATE	115200
 /*==================[internal data declaration]==============================*/
 
 /*==================[internal functions declaration]=========================*/
@@ -62,15 +62,6 @@
 /*==================[external data definition]===============================*/
 
 /*==================[internal functions definition]==========================*/
-static void eventInput1_callBack(mcu_gpio_pinId_enum id, mcu_gpio_eventTypeInput_enum evType)
-{
-   ActivateTask(InputEvTask1);
-}
-
-static void eventInput2_callBack(mcu_gpio_pinId_enum id, mcu_gpio_eventTypeInput_enum evType)
-{
-   ActivateTask(InputEvTask2);
-}
 
 /*==================[external functions definition]==========================*/
 /** \brief Main function
@@ -123,30 +114,33 @@ void ErrorHook(void)
 TASK(InitTask)
 {
    bsp_init();
-
-   mcu_gpio_setEventInput(MCU_GPIO_PIN_ID_38,
-         MCU_GPIO_EVENT_TYPE_INPUT_FALLING_EDGE,
-         eventInput1_callBack);
-
-   mcu_gpio_setEventInput(MCU_GPIO_PIN_ID_42,
-         MCU_GPIO_EVENT_TYPE_INPUT_RISING_EDGE,
-         eventInput2_callBack);
+   mcu_uart_init(BAUD_RATE);
+   SetRelAlarm(ActivateTask1, 0, PERIOD_MS);
+   //SetRelAlarm(ActivateTask2, 350, PERIOD_MS);
+   //ActivateTask(Task2);
 
    TerminateTask();
 }
 
-TASK(InputEvTask1)
+TASK(Task1)
 {
-   bsp_ledAction(BOARD_LED_ID_0_B, BSP_LED_ACTION_TOGGLE);
-
-   TerminateTask();
+      bsp_ledAction(BOARD_LED_ID_1, BSP_LED_ACTION_TOGGLE);
+      //ChainTask(Task2);
+      TerminateTask();
 }
 
-TASK(InputEvTask2)
+TASK(Task2)
 {
-   bsp_ledAction(BOARD_LED_ID_1, BSP_LED_ACTION_TOGGLE);
 
-   TerminateTask();
+	bsp_ledAction(BOARD_LED_ID_2, BSP_LED_ACTION_TOGGLE);
+
+	/*	char message[] = "Hola Forro\n\r";
+		uint32_t longitud = sizeof(message);
+
+		mcu_uart_write(message, sizeof(message));*/
+
+
+     TerminateTask();
 }
 
 /** @} doxygen end group definition */

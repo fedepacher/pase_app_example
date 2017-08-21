@@ -1,5 +1,4 @@
 /* Copyright 2017, Gustavo Muro
- * All rights reserved.
  *
  * This file is part of CIAA Firmware.
  *
@@ -31,40 +30,54 @@
  *
  */
 
-/** \brief source para MCU
+#ifndef PASE_APP_EXAMPLE_H_
+#define PASE_APP_EXAMPLE_H_
+/** \brief PASE APP EXAMPLE
  **
- ** archivo de inicilización del microcontrolador
+ ** ejemplo de aplicación usando CIAA Firmware
  **
  **/
 
-/** \addtogroup PASE_APP_EXAMPLE
+/** \addtogroup
  ** @{ */
-/** \addtogroup MCU
+/** \addtogroup
+ ** @{ */
+/** \addtogroup
  ** @{ */
 
 /*==================[inclusions]=============================================*/
-#include "mcu.h"
 
-/*==================[macros and definitions]=================================*/
+/*==================[macros]=================================================*/
 
-/*==================[internal data declaration]==============================*/
-
-/*==================[internal functions declaration]=========================*/
-
-/*==================[internal data definition]===============================*/
-
-/*==================[external data definition]===============================*/
-
-/*==================[internal functions definition]==========================*/
-
-/*==================[external functions definition]==========================*/
-extern void mcu_init(void)
+/*==================[typedef]================================================*/
+typedef enum
 {
-   mcu_gpio_init();
-   mcu_uart_init(9600);
-   mcu_pwm_init();
-}
+	STOP = 0,
+   INICIO_SECUENCIA,
+   PAUSA,
+   REANUDA_SECUENCIA,
+   MAXIMO_1,
+   MAXIMO_2,
+   MAXIMO_3,
 
+}estado_secuencia;
+typedef enum
+{
+   lED_1 = 0,
+   lED_2,
+   lED_3,
+
+}led_on;
+
+
+
+/*==================[external data declaration]==============================*/
+
+/*==================[external functions declaration]=========================*/
+
+/** @} doxygen end group definition */
 /** @} doxygen end group definition */
 /** @} doxygen end group definition */
 /*==================[end of file]============================================*/
+#endif /* #ifndef PASE_APP_EXAMPLE_H_ */
+
