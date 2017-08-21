@@ -208,7 +208,7 @@ TASK(PeriodicTask)
 			else
 			{
 				flag_cambio = 0;
-				//ChainTask(PeriodicTask4Seg);
+				ChainTask(PeriodicTask4Seg);
 			}
 		}
 
