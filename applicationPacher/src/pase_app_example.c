@@ -144,8 +144,8 @@ TASK(InitTask)
    bsp_init();
 
 
-  /* mcu_pwm_init();
-   mcu_pwm_config(0,SCT_PWM_RATE);*/
+   mcu_pwm_init();
+   mcu_pwm_config(0,SCT_PWM_RATE);
 
 
    //ACTIVA EVENTO BOTON 1, FALLING EDGE
@@ -170,7 +170,7 @@ static int32_t contador = 0;
 static char flag_cambio = 0;
 TASK(PeriodicTask)
 {
-	/*tiempo = tiempo + 0.2;
+
 	if(pausa == 0)
 	{
 		if(flag_cambio == 0)
@@ -196,7 +196,7 @@ TASK(PeriodicTask)
 					break;
 
 				}
-				ChainTask(WriteSerialTask);
+				//ChainTask(WriteSerialTask);
 			}
 		}
 		else
@@ -208,7 +208,7 @@ TASK(PeriodicTask)
 			else
 			{
 				flag_cambio = 0;
-				ChainTask(PeriodicTask4Seg);
+				//ChainTask(PeriodicTask4Seg);
 			}
 		}
 
@@ -230,7 +230,7 @@ TASK(PeriodicTask)
 				mcu_pwm_setDutyCicle(contador,12,4,1);
 			break;
 		}
-	}*/
+	}
 	TerminateTask();
 }
 
@@ -340,7 +340,7 @@ TASK(WriteSerialTask2)
 TASK(InputEvTask1)
 {
 	bsp_ledAction(BOARD_LED_ID_0_R, BSP_LED_ACTION_TOGGLE);
-	/*if(arranque ==0)
+	if(arranque ==0)
 	{
 		arranque = 1;
 		 //activo tarea pwm
@@ -355,7 +355,7 @@ TASK(InputEvTask1)
 	   pausa = 1;
 	   mcu_pwm_stop();
 	   secuencia = STOP;
-	   ChainTask(WriteSerialTask);
+	   //ChainTask(WriteSerialTask);
 	}
 	else
 	{
@@ -366,9 +366,9 @@ TASK(InputEvTask1)
 		flag_cambio = 0;
 		secuencia = INICIO_SECUENCIA;
 		mcu_pwm_start();
-		ChainTask(WriteSerialTask);
+		//ChainTask(WriteSerialTask);
 
-	}*/
+	}
 
 
    TerminateTask();
@@ -380,7 +380,7 @@ TASK(InputEvTask2)
 {
 
    bsp_ledAction(BOARD_LED_ID_0_B, BSP_LED_ACTION_TOGGLE);
-/*   if(pausa == 0)
+   if(pausa == 0)
    {
 	   pausa = 1;
 	   secuencia = PAUSA;
@@ -390,7 +390,7 @@ TASK(InputEvTask2)
 	   pausa = 0;
 	   secuencia = REANUDA_SECUENCIA;
    }
-   ChainTask(WriteSerialTask);*/
+   //ChainTask(WriteSerialTask);
    TerminateTask();
 }
 
