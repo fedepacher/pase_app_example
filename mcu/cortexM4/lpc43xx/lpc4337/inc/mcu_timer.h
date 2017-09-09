@@ -31,8 +31,8 @@
  *
  */
 
-#ifndef MCU_H
-#define MCU_H
+#ifndef MCU_PWM_H
+#define MCU_PWM_H
 /** \brief Header para MCU
  **
  ** archivo de inicilización del microcontrolador
@@ -41,12 +41,13 @@
 
 /** \addtogroup PASE_APP_EXAMPLE
  ** @{ */
-/** \addtogroup MCU
+/** \addtogroup MCU PWM
  ** @{ */
-
 /*==================[inclusions]=============================================*/
-#include "mcu_gpio.h"
-#include "mcu_timer.h"
+#include "stdbool.h"
+#include "stdint.h"
+
+
 
 /*==================[cplusplus]==============================================*/
 #ifdef __cplusplus
@@ -55,12 +56,12 @@ extern "C" {
 
 /*==================[macros]=================================================*/
 
+//#define mcu_pwm_setDutyCicle(duty,Channel)	Chip_SCTPWM_SetDutyCycle(LPC_SCT, Channel, Chip_SCTPWM_PercentageToTicks(LPC_SCT, duty));
 /*==================[typedef]================================================*/
 
-/*==================[external data declaration]==============================*/
-
-/*==================[external functions declaration]=========================*/
-extern void mcu_init(void);
+extern void mcu_timer_init();
+extern uint32_t mcu_timer_read();
+extern void mcu_timer_start();
 
 /*==================[cplusplus]==============================================*/
 #ifdef __cplusplus
@@ -69,5 +70,5 @@ extern void mcu_init(void);
 /** @} doxygen end group definition */
 /** @} doxygen end group definition */
 /*==================[end of file]============================================*/
-#endif /* #ifndef MCU_H */
+#endif /* #ifndef MCU_PWM_H */
 

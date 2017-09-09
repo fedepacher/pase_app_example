@@ -66,6 +66,11 @@ extern void bsp_init(void)
    board_init();
 
    bsp_keyboardInit();
+
+   mcu_timer_init();
+
+   mcu_timer_start();
+
 }
 
 extern void bsp_ledAction(board_ledId_enum id, bsp_ledAction_enum action)
@@ -84,6 +89,10 @@ extern void bsp_ledAction(board_ledId_enum id, bsp_ledAction_enum action)
          board_ledToggle(id);
          break;
    }
+}
+
+extern uint32_t bsp_readTimer(){
+	return mcu_timer_read();
 }
 
 /** @} doxygen end group definition */

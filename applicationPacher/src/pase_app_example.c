@@ -48,7 +48,7 @@
 #include "pase_app_example.h"
 #include "bsp.h"
 #include "mcu.h"
-
+#include "util.h"
 
 /*==================[macros and definitions]=================================*/
 #define FIRST_START_DELAY_MS 200
@@ -65,8 +65,6 @@
 
 #define BUFFER_SIZE  512
 
-#define TICKRATE_HZ     1000        /* 1 ms Tick rate */
-
 /*==================[internal data declaration]==============================*/
 
 /*==================[internal functions declaration]=========================*/
@@ -76,8 +74,7 @@ int32_t pausa = 1;
 estado_secuencia secuencia = 0;
 led_on led_encendido = 0;
 uint8_t arranque = 0;
-double tiempo = 0;
-
+uint8_t Buffer[50];
 /*==================[external data definition]===============================*/
 
 /*==================[internal functions definition]==========================*/
@@ -141,6 +138,8 @@ void ErrorHook(void)
  */
 TASK(InitTask)
 {
+	uint32_t sysTickRate;
+
    bsp_init();
 
 
@@ -161,16 +160,15 @@ TASK(InitTask)
    mcu_uart_init(BAUD_RATE);
 
 
-
    TerminateTask();
 }
+
 
 
 static int32_t contador = 0;
 static char flag_cambio = 0;
 TASK(PeriodicTask)
 {
-
 	if(pausa == 0)
 	{
 		if(flag_cambio == 0)
@@ -249,65 +247,88 @@ TASK(PeriodicTask4Seg)
 }
 
 
-
-
 TASK(WriteSerialTask)
 {
 
 	bsp_ledAction(BOARD_LED_ID_0_R, BSP_LED_ACTION_TOGGLE);
-	char message1[] = "Maximo Amarillo\n\r";
-	char message2[] = "Maximo Rojo\n\r";
-	char message3[] = "Maximo Verde\n\r";
-	char message4[] = "Secuencia Stop\n\r";
-	char message5[] = "Inicio Secuencia - Iniciando Amarillo\n\r";
-	char message6[] = "Secuencia Pausada\n\r";
-	char message7[] = "Secuencia Reanudada\n\r";
-		 switch(secuencia)
+	char message1[] = ": Maximo Amarillo\n\r";
+	char message2[] = ": Maximo Rojo\n\r";
+	char message3[] = ": Maximo Verde\n\r";
+	char message4[] = ": Secuencia Stop\n\r";
+	char message5[] = ": Inicio Secuencia\n\r";
+	char message6[] = ": Secuencia Pausada\n\r";
+	char message7[] = ": Secuencia Reanudada\n\r";
+	char message11[] = "Iniciando Amarillo\n\r";
+
+
+	Binario_to_BCD(bsp_readTimer(), Buffer, 0, 8);
+	Buffer[8]='\0';
+
+	switch(secuencia)
 	 	 {
 		 	 	 case STOP:
-		 			 mcu_uart_write(message4, sizeof(message4));
+		 	 		strcat(Buffer,message4);
+		 			 //mcu_uart_write(message4, sizeof(message4));
 		 			 break;
 		 		case INICIO_SECUENCIA:
-		 			 mcu_uart_write(message5, sizeof(message5));
+		 			strcat(Buffer,message5);
+		 			 //mcu_uart_write(message5, sizeof(message5));
 		 			 break;
 		 		case PAUSA:
-		 			 mcu_uart_write(message6, sizeof(message6));
+		 			strcat(Buffer,message6);
+		 			// mcu_uart_write(message6, sizeof(message6));
 		 			 break;
 		 		case REANUDA_SECUENCIA:
-		 			mcu_uart_write(message7, sizeof(message7));
+		 			strcat(Buffer,message7);
+		 			//mcu_uart_write(message7, sizeof(message7));
 		 			break;
 			 	 case MAXIMO_1:
-			 		mcu_uart_write(message1, sizeof(message1));
+			 		strcat(Buffer,message1);
+			 		//mcu_uart_write(message1, sizeof(message1));
 			 		 break;
 			 	 case MAXIMO_2:
-			 		 mcu_uart_write(message2, sizeof(message2));
+			 		strcat(Buffer,message2);
+			 		// mcu_uart_write(message2, sizeof(message2));
 			 		 break;
 			 	 case MAXIMO_3:
-			 		 mcu_uart_write(message3, sizeof(message3));
+			 		strcat(Buffer,message3);
+			 		// mcu_uart_write(message3, sizeof(message3));
 			 		 break;
 		}
-
+	mcu_uart_write(Buffer, sizeof(Buffer));
+	if(secuencia == INICIO_SECUENCIA)
+	{
+		mcu_uart_write(message11, sizeof(message11));
+	}
 
 	TerminateTask();
 }
 
 TASK(WriteSerialTask2)
 {
-	char message8[] = "Iniciando Amarillo\n\r";
-	char message9[] = "Iniciando Rojo\n\r";
-	char message10[] = "Iniciando Verde\n\r";
+	char message8[] = ": Iniciando Amarillo\n\r";
+	char message9[] = ": Iniciando Rojo\n\r";
+	char message10[] = ": Iniciando Verde\n\r";
+
+	Binario_to_BCD(bsp_readTimer(), Buffer, 0, 8);
+		Buffer[8]='\0';
+
 	switch(led_encendido)
 			 {
 			 	 case lED_1:
-			 		mcu_uart_write(message8, sizeof(message8));
+			 		strcat(Buffer,message8);
+			 		//mcu_uart_write(message8, sizeof(message8));
 					break;
 				case lED_2:
-					mcu_uart_write(message9, sizeof(message9));
+					strcat(Buffer,message9);
+					//mcu_uart_write(message9, sizeof(message9));
 					break;
 				case lED_3:
-			 		mcu_uart_write(message10, sizeof(message10));
+					strcat(Buffer,message10);
+					//mcu_uart_write(message10, sizeof(message10));
 			 		break;
 			 }
+	mcu_uart_write(Buffer, sizeof(Buffer));
 	TerminateTask();
 }
 //TECLA 1
@@ -333,7 +354,6 @@ TASK(InputEvTask1)
 	}
 	else
 	{
-		tiempo = 0;
 		pausa = 0;
 		led_encendido = 0;
 		contador = 0;

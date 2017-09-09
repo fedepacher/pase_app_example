@@ -1,7 +1,6 @@
-/* Copyright 2017, Gustavo Muro
- * All rights reserved.
+/* Copyright 2017, Luciano Rumin
  *
- * This file is part of CIAA Firmware.
+ *
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -31,43 +30,52 @@
  *
  */
 
-#ifndef MCU_H
-#define MCU_H
-/** \brief Header para MCU
+#ifndef UTIL_H_
+#define UTIL_H_
+/** \brief UTIL
  **
- ** archivo de inicilización del microcontrolador
+ ** Aplicación usando CIAA Firmware
  **
  **/
 
-/** \addtogroup PASE_APP_EXAMPLE
+/** \addtogroup
  ** @{ */
-/** \addtogroup MCU
+/** \addtogroup
+ ** @{ */
+/** \addtogroup
  ** @{ */
 
 /*==================[inclusions]=============================================*/
-#include "mcu_gpio.h"
-#include "mcu_timer.h"
-
-/*==================[cplusplus]==============================================*/
-#ifdef __cplusplus
-extern "C" {
-#endif
-
+#include <stdint.h>
 /*==================[macros]=================================================*/
 
 /*==================[typedef]================================================*/
+typedef enum
+{
+   RAMPA_SUBIDA = 0,
+   RAMPA_BAJADA,
+   RAMPA_PAUSADA,
+   RAMPA_PARADA,
+}tipoesrampa_enum;
+
+typedef enum
+{
+   COLOR_ROJO = 0,
+   COLOR_VERDE,
+   COLOR_AMARILLO,
+}tipocolor_enum;
+
 
 /*==================[external data declaration]==============================*/
-
+extern tipoesrampa_enum Estado_Rampa, Bk_Estado_Rampa;
+extern tipocolor_enum Color_Led;
 /*==================[external functions declaration]=========================*/
-extern void mcu_init(void);
 
-/*==================[cplusplus]==============================================*/
-#ifdef __cplusplus
-}
-#endif
+extern void Binario_to_BCD(uint32_t , uint8_t* , uint32_t , uint32_t);
+
+/** @} doxygen end group definition */
 /** @} doxygen end group definition */
 /** @} doxygen end group definition */
 /*==================[end of file]============================================*/
-#endif /* #ifndef MCU_H */
+#endif /* #ifndef PASE_APP_EXAMPLE_H_ */
 

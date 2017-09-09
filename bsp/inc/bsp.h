@@ -68,7 +68,7 @@ typedef enum
 /*==================[external functions declaration]=========================*/
 extern void bsp_init(void);
 extern void bsp_ledAction(board_ledId_enum id, bsp_ledAction_enum action);
-
+extern uint32_t bsp_readTimer();
 /*==================[cplusplus]==============================================*/
 #ifdef __cplusplus
 }
